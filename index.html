@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trámites & Impuestos | Portal Ciudadano</title>
+<meta name="description" content="Portal ciudadano para renovación de licencia, pago de impuesto predial y emisión de acta de nacimiento digital.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  #loader{position:fixed;inset:0;z-index:9999;display:grid;place-content:center;justify-items:center;gap:18px;background:linear-gradient(160deg,#e8f7ff,#dcf3e5 55%,#c9ecd6);transition:opacity .6s ease,visibility .6s ease;overflow:hidden}
+  #loader.hidden{opacity:0;visibility:hidden}
+</style>
+</head>
+<body>
+
+<div class="scene" aria-hidden="true">
+  <div class="sky-gradient"></div>
+  <div class="sun-glow"></div>
+  <div class="cloud cloud-1"></div><div class="cloud cloud-2"></div><div class="cloud cloud-3"></div><div class="cloud cloud-4"></div>
+  <div class="hills"></div>
+  <div class="bubbles" id="bubbles"></div>
+</div>
+
+<div id="loader">
+  <div class="loader-spinner">
+    <div class="loader-pulse"></div>
+    <div class="loader-ring"></div>
+  </div>
+  <div class="loader-logo">
+    <svg viewBox="0 0 64 64"><path d="M10 40h44v10a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4zM16 40V22a16 16 0 0 1 32 0v18"/></svg>
+  </div>
+  <p class="loader-text">Cargando portal<span class="dots"><i>.</i><i>.</i><i>.</i></span></p>
+</div>
+
+<header class="topbar" id="topbar">
+  <a class="brand" href="#inicio">
+    <span class="brand-mark"><svg viewBox="0 0 64 64"><path d="M10 40h44v10a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4zM16 40V22a16 16 0 0 1 32 0v18"/></svg></span>
+    <span class="brand-text"><strong>Trámites & Impuestos</strong><small>Portal Ciudadano Digital</small></span>
+  </a>
+  <nav class="menu" id="menu">
+    <a href="#inicio" class="m-link active">Inicio</a>
+    <a href="#mod1" class="m-link">Licencia</a>
+    <a href="#mod2" class="m-link">Predial</a>
+    <a href="#mod3" class="m-link">Acta Nacimiento</a>
+    <button class="btn-glass btn-user" id="btnIdentificar"><span id="userChipText">Identificarse</span></button>
+  </nav>
+  <button class="burger" id="burger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+</header>
+
+<main>
+
+<section class="hero" id="inicio">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="pill"><i class="dot-live"></i> Portal operativo</span>
+      <h1 class="hero-title"><span class="line">Trámites y pagos</span><span class="line grad">sin filas ni papeles</span></h1>
+      <p class="hero-sub">Renueva tu licencia de conducir, paga tu impuesto predial y obtén tu acta de nacimiento digital. Todo en un solo lugar, seguro y verificable.</p>
+      <div class="hero-actions">
+        <a href="#mod1" class="btn btn-primary btn-lg">Iniciar trámite</a>
+        <a href="#mod3" class="btn btn-glass btn-lg">Acta digital</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat glass"><span class="stat-ico ico-green"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span><b class="counter" data-target="3">0</b><small>Módulos activos</small></div>
+        <div class="stat glass"><span class="stat-ico ico-blue"><svg viewBox="0 0 24 24"><path d="M5 17h14M6 17V9l6-4 6 4v8"/></svg></span><b class="counter" data-target="100">0</b><small>% digital</small></div>
+        <div class="stat glass"><span class="stat-ico ico-amber"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><b class="counter" data-target="24">0</b><small>Horas servicio</small></div>
+        <div class="stat glass"><span class="stat-ico ico-sky"><svg viewBox="0 0 24 24"><path d="M12 22s8-4.5 8-11a8 8 0 1 0-16 0c0 6.5 8 11 8 11z"/><circle cx="12" cy="11" r="3"/></svg></span><b class="counter" data-target="99">0</b><small>% disponibilidad</small></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="globe-card glass">
+        <div class="globe-head"><span class="live-tag"><i></i> EN VIVO</span><span class="clock" id="clock">--:--:--</span></div>
+        <div class="mini-map" id="miniMap" style="height:250px;display:grid;place-items:center;color:var(--green-700);font-family:var(--font-h);font-size:1.1rem;">Portal Ciudadano Digital</div>
+        <div class="globe-foot">
+          <div class="chip"><span class="k">Trámites hoy</span><span class="v" id="kpiTramites">0</span></div>
+          <div class="chip"><span class="k">Pagos OK</span><span class="v" id="kpiPagos">0</span></div>
+          <div class="chip"><span class="k">Actas emitidas</span><span class="v" id="kpiActas">0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULO 1 -->
+<section class="section" id="mod1">
+  <div class="section-head">
+    <h2 class="title"><span class="title-bar"></span>Módulo 1: Renovación de Licencia de Conducir</h2>
+    <p class="subtitle">Autenticación digital, verificación de multas, validación médica, selección de vigencia y pago.</p>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi glass"><div class="kpi-head"><span>Identidad</span><span class="kpi-chip ok">Digital</span></div><div class="kpi-body"><b id="m1id">—</b><div class="ring" style="--p:100"><span>OK</span></div></div><small>Módulo de Identidad Digital</small></div>
+    <div class="kpi glass"><div class="kpi-head"><span>Multas</span><span class="kpi-chip warn" id="m1multasChip">Pendiente</span></div><div class="kpi-body"><b id="m1multas">—</b><div class="ring ring-amber" style="--p:0"><span>—</span></div></div><small>Sistema de Tránsito</small></div>
+    <div class="kpi glass"><div class="kpi-head"><span>Certificado médico</span><span class="kpi-chip ok" id="m1medChip">Pendiente</span></div><div class="kpi-body"><b id="m1med">—</b><div class="ring" style="--p:0"><span>—</span></div></div><small>Centro Médico Autorizado</small></div>
+    <div class="kpi glass"><div class="kpi-head"><span>Tarifa</span><span class="kpi-chip ok">Calculada</span></div><div class="kpi-body"><b id="m1tarifa">$0</b><div class="ring ring-green" style="--p:0"><span>0%</span></div></div><small>Módulo de Licencias</small></div>
+  </div>
+  <div class="panel-grid">
+    <div class="card glass">
+      <div class="card-head"><h3>Flujo de renovación</h3><span class="chip chip-green">Seguro</span></div>
+      <div class="field"><label>Credencial digital (cédula/usuario)</label><input id="m1user" placeholder="V-12345678" class="full-input"></div>
+      <div class="field"><label>Vigencia deseada</label>
+        <select id="m1vigencia"><option value="1">1 año — $25</option><option value="2">2 años — $45</option><option value="5">5 años — $100</option></select></div>
+      <div class="form-actions">
+        <button class="btn btn-primary" id="m1auth">1. Autenticar identidad</button>
+        <button class="btn btn-glass" id="m1multasBtn">2. Consultar multas</button>
+        <button class="btn btn-soft" id="m1medBtn">3. Validar médico</button>
+        <button class="btn btn-primary" id="m1pay">4. Pagar y emitir</button>
+      </div>
+      <div id="m1result" style="margin-top:16px;"></div>
+    </div>
+    <div class="card glass">
+      <div class="card-head"><h3>Licencia emitida</h3><span class="muted" id="m1status">Sin emitir</span></div>
+      <div id="m1licencia" style="text-align:center;padding:20px;color:var(--ink-soft);">Complete el flujo para emitir la licencia con QR dinámico.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULO 2 -->
+<section class="section" id="mod2">
+  <div class="section-head">
+    <h2 class="title"><span class="title-bar"></span>Módulo 2: Pago de Impuesto Predial</h2>
+    <p class="subtitle">Búsqueda catastral, avalúo y descuentos, selección de método de pago y recibo con QR.</p>
+  </div>
+  <div class="inc-layout">
+    <form class="card glass inc-form" id="m2form" novalidate>
+      <div class="form-head"><h3>Consulta de predio</h3><span class="chip chip-green">Catastro</span></div>
+      <div class="field"><label>Clave catastral</label><input id="m2clave" placeholder="CL-000-000" required></div>
+      <div class="field"><label>Método de pago</label>
+        <select id="m2metodo"><option value="tarjeta">Tarjeta</option><option value="transferencia">Transferencia</option><option value="efectivo">Efectivo</option></select></div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-primary" id="m2buscar">Buscar predio</button>
+        <button type="submit" class="btn btn-glass">Pagar impuesto</button>
+      </div>
+      <div id="m2info" style="margin-top:12px;"></div>
+    </form>
+    <div class="inc-side">
+      <div class="card glass"><div class="card-head"><h3>Recibo oficial</h3><span class="muted" id="m2status">Sin pago</span></div>
+        <div id="m2recibo" style="text-align:center;padding:20px;color:var(--ink-soft);">El recibo con QR de validación fiscal aparecerá aquí.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULO 3 -->
+<section class="section" id="mod3">
+  <div class="section-head">
+    <h2 class="title"><span class="title-bar"></span>Módulo 3: Emisión de Acta de Nacimiento Digital</h2>
+    <p class="subtitle">Autenticación, consulta demográfica, firma electrónica avanzada y PDF/A con CSV/QR.</p>
+  </div>
+  <div class="driver-layout">
+    <div class="card glass card-reader">
+      <div class="reader-visual"><div class="reader-glow"></div><div class="reader-slot"><span></span><span></span><span></span></div><div class="reader-text">Verificación de identidad</div></div>
+      <div class="tarjeta-form">
+        <label>Cédula del solicitante</label>
+        <div class="input-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="8.5" cy="11.5" r="2.5"/></svg>
+          <input type="text" id="m3user" placeholder="V-00000000"></div>
+        <button class="btn btn-primary btn-block" id="m3auth">Autenticar ciudadano</button>
+      </div>
+    </div>
+    <div class="card glass gps-log">
+      <div class="card-head"><h3>Generación del acta</h3><span class="live-tag"><i></i> <span id="m3status">En espera</span></span></div>
+      <div class="field"><label>Datos filiatorios (nombre del titular)</label><input id="m3nombre" placeholder="Nombre completo" class="full-input"></div>
+      <div class="form-actions">
+        <button class="btn btn-soft" id="m3consultar">Consultar repositorio</button>
+        <button class="btn btn-primary" id="m3generar">Generar acta PDF/A</button>
+        <button class="btn btn-glass" id="m3descargar" disabled>Descargar PDF</button>
+      </div>
+      <div id="m3acta" style="margin-top:16px;text-align:center;color:var(--ink-soft);">El acta con CSV/QR aparecerá aquí.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="foot-grid">
+    <div class="foot-col">
+      <a class="brand footer-brand" href="#inicio"><span class="brand-mark"><svg viewBox="0 0 64 64"><path d="M10 40h44v10a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4zM16 40V22a16 16 0 0 1 32 0v18"/></svg></span><span class="brand-text"><strong>Trámites & Impuestos</strong><small>Portal Ciudadano Digital</small></span></a>
+      <p class="muted">Renovación de licencia, pago predial y actas digitales con validez jurídica.</p>
+    </div>
+    <div class="foot-col"><h4>Módulos</h4><ul><li>Renovación de licencia</li><li>Pago de impuesto predial</li><li>Acta de nacimiento digital</li></ul></div>
+    <div class="foot-col"><h4>Tecnologías</h4><ul><li>HTML, CSS, JS</li><li>GSAP animaciones</li><li>QR dinámico</li></ul></div>
+    <div class="foot-col"><h4>Proyecto</h4><ul><li>Universidad — IUJO</li><li>Ingeniería de Software</li><li>Producto de demostración</li></ul></div>
+  </div>
+  <div class="foot-bottom"><span>© 2026 Trámites & Impuestos · Proyecto universitario</span><span>Hecho con HTML, CSS, JS y GSAP</span></div>
+</footer>
+
+</main>
+
+<div class="modal-backdrop" id="modalBackdrop"><div class="modal" id="modal" role="dialog" aria-modal="true">
+  <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
+  <div class="modal-body" id="modalBody"></div>
+</div></div>
+<div class="toast-stack" id="toastStack"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="script.js"></script>
+<script>
+(function(){const ring=document.querySelector('.loader-ring');if(!ring)return;let ang=0;function girar(){ang=(ang+4)%360;ring.style.transform='rotate('+ang+'deg)';ring.style.animation='none';requestAnimationFrame(girar);}girar();})();
+</script>
+</body>
+</html>
